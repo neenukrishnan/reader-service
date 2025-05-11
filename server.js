@@ -1,6 +1,7 @@
 const express = require("express");
 const formatUptime = require("./src/utils/Formatters/upTimeformat");
 const router = require("./src/routes");
+const connectReader = require("./src/config/db");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+connectReader()
 
 
 const startTime = new Date();
@@ -19,7 +21,7 @@ app.get("/health-check", (req, res) => {
   const currentTime = new Date();
   const uptimeInSeconds = (currentTime - startTime) / 1000;
 
-  res.status(200).json({  
+  res.status(200).json({
     upTime: formatUptime(uptimeInSeconds),
   });
 });
